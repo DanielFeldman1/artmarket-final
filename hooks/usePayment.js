@@ -1,8 +1,7 @@
 "use client"
-
 import { useData } from "@/context/DataContext"
 // Custom hook to manage payment and cart cleanup after purchase
-export function usePayment({ total }) {
+export function usePayment({ total,router }) {
     // Access `setDbUpdate` from DataContext to trigger a data refresh after purchase
     const { setDbUpdate } = useData()
     // Deletes purchased artworks from the database after a successful transaction.
@@ -40,12 +39,13 @@ export function usePayment({ total }) {
         await deletePurchasedArtworks()
         localStorage.removeItem("artGalleryCart")
         window.dispatchEvent(new Event("cartUpdate"))
+        router.push("/OrderComplete")
     }
     // Demo payment handler for testing purposes
     const handleDemoPayment = async () => {
         try {
             await handleSuccessfulPurchase()
-            alert("Demo purchase successful! Total amount: $" + total)
+            //alert("Demo purchase successful! Total amount: $" + total)
         } catch (error) {
             console.error("Error processing demo purchase:", error)
             alert("Demo purchase failed. Please try again.")

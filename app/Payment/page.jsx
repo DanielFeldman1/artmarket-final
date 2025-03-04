@@ -4,13 +4,15 @@ import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js"
 import { useSearchParams } from "next/navigation"
 import { Suspense } from "react"
 import { usePayment } from "@/hooks/usePayment"
+import { useRouter } from "next/navigation"
 
 // PaymentContent component handles the payment logic and UI
 function PaymentContent() {
     // Get total amount from URL parameters
     const searchParams = useSearchParams()
     const total = searchParams.get("total") || "0.00"
-    const { handleSuccessfulPurchase, handleDemoPayment, initialOptions } = usePayment({ total })
+    const router = useRouter()
+    const { handleSuccessfulPurchase, handleDemoPayment, initialOptions } = usePayment({ total,router })
 
     return (
         <div
